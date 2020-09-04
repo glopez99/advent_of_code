@@ -66,8 +66,19 @@
 
   reverseStackOrder() {
     var reversedStack = [];
-    for (let i = 1; i <= this._storage.length; i++){
-      reversedStack.push(this._storage[this._storage.length - i].item);
+    this._head = null;
+    for (let i = 0; i < this._storage.length; i++){
+      if (this._storage[this._storage.length - (2 + i)] != undefined){
+        this._head = this._storage[this._storage.length - (2 + i)].item;
+      } else {
+        this._head = null;
+      }
+      
+      var item = {
+        item: this._storage[this._storage.length - (1 + i)].item,
+        next: this._head,
+      }
+      reversedStack = [...reversedStack, item];
     };
 
     this._storage = reversedStack;
