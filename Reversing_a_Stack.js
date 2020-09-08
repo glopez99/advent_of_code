@@ -4,36 +4,26 @@
 
  class Stack {
    constructor () {
-    this._storage = [];
+    //this._storage = [];
     this._head = null;
    }
 
   push(item) {
+    // adds an item to the stack
     if (!item) {
       throw `This ${item} is invalid.`;
     }
 
-    if (this.isEmpty()) {
-      this._head = {
-        item: item,
-        next: null,
-      };
-    } else {
-      this._head = {
-        item: item,
-        next: this._head.item,
-      };
-    }
-
-    if (this.isEmpty()) {
-      this._storage = [...this._storage, this._head];
-    } else {
-      this._storage = [this._head, ...this._storage];
+    this._head = {
+      item: item,
+      next: this._head,
     };
+
 
   }
 
   pop(){
+    // returns the first item in the stack and gets rid of it
     if(this.isEmpty()) {
       throw `This is an empty stack`;
     }
@@ -41,14 +31,11 @@
     const toReturn = this._head.item;
     this._head = this._head.next;
 
-    for (i = 0; i < this._storage.length; i++) {
-      this._storage[i] = this._storage[i + 1];
-    };
-
     return toReturn;
   };
 
   peek() {
+    // looks at the first item in the stack but doesn't get rid of it
     if(this.isEmpty()) {
       throw `This is an empty stack.`;
     } else {
@@ -57,46 +44,56 @@
   };
 
   isEmpty() {
+    // tells us if the stack is empty
     return this._head === null;
   };
 
   printStack() {
-    return this._storage;
+    // prints the stack
+    return this._head;
   };
 
   reverseStackOrder() {
-    var reversedStack = [];
-    this._head = null;
-    for (let i = 0; i < this._storage.length; i++){
-      if (this._storage[this._storage.length - (2 + i)] != undefined){
-        this._head = this._storage[this._storage.length - (2 + i)].item;
-      } else {
-        this._head = null;
-      }
-      
-      var item = {
-        item: this._storage[this._storage.length - (1 + i)].item,
-        next: this._head,
-      }
-      reversedStack = [...reversedStack, item];
+    /* Reverses the stack by creating a new Stack and
+     * pushing in the items starting with the front of
+     * the current stack.
+    */
+    var reversedStack = new Stack();
+
+    while (!this.isEmpty()) {
+      reversedStack.push(this.pop());
     };
 
-    this._storage = reversedStack;
+    this._head = reversedStack._head;
   };
  };
 
  
-var stack = new Stack;
+var stack = new Stack();
 
 stack.push('apple');
 stack.push('orange');
 stack.push('banana');
 stack.push('peach');
 
-console.log(stack.printStack());
+console.log(JSON.stringify(stack,null, 2));
 
 stack.reverseStackOrder();
 
-console.log(stack.printStack());
+console.log(JSON.stringify(stack,null, 2));
 
- 
+
+/* Prints
+ * [
+ * { item: 'peach', next: 'banana' },
+ * { item: 'banana', next: 'orange' },
+ * { item: 'orange', next: 'apple' },
+ * { item: 'apple', next: null }
+ * ]
+ * [
+ * { item: 'apple', next: 'orange' },
+ * { item: 'orange', next: 'banana' },
+ * { item: 'banana', next: 'peach' },
+ * { item: 'peach', next: null }
+ * ]
+ */
