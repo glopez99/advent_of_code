@@ -8,6 +8,7 @@ function dayOneSolve (puzzleInput) {
   var halfPuzzleInputLength = puzzleInput.length / 2
 
   for (let i=0; i < puzzleInput.length; i++) {
+    // for part one use if( i === puzzleInput.length - 1) { sum = sum + checkIfMatch(puzzleInput[i], puzzleInput[0])}
     if (i > halfPuzzleInputLength) {
       sum = sum + checkIfMatch(puzzleInput[i], puzzleInput[i - halfPuzzleInputLength]);
     } else {
