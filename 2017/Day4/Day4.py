@@ -2,7 +2,7 @@
 rawPuzzleInput = open('PuzzleInput.txt', 'r')
 formattedPuzzleInput = rawPuzzleInput.readlines()
 
-def dayFourPartOne (input):
+def dayFour (input):
   count = 0
 
   for phrase in input:
@@ -28,4 +28,4 @@ def checkForAnagram(passphrase):
   return 1
 
 
-print(dayFourPartOne(formattedPuzzleInput))
+print(dayFour(formattedPuzzleInput))
