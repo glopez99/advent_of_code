@@ -15,7 +15,7 @@ def daySix(puzzleInput):
   # why it's dropping items when returning
   totalBags = 0
 
-  totalBags = bagCount("plaid silver", puzzleInput) 
+  totalBags = bagCount("shiny gold", puzzleInput) 
 
   print("This is the right answer:", totalBags)
 
@@ -25,15 +25,17 @@ def bagCount(color, input):
   line = findLine(color, input)
   #print("This is the line with the bag in it:", line)
 
-  numbers = re.findall('[0-9]+', line)
-  #print("These are the numbers in the line", numbers)
+  splitLine = line.split(',')
 
-  for number in numbers:
-    #print("the number we're going through is", number)
-    color = findColor(line, number)
-    #print("The next color is:", color)
-    totalBags += int(number) + (int(number) * bagCount(color, input))
-    #print("Total Bags is currently at:", totalBags)
+  for section in splitLine:
+    # print("this is the section:", section)
+    number = re.findall('[0-9]+', section)
+    # print("the number is:", number)
+    if len(number) > 0:
+      color = findColor(section, number[0])
+      #print("The next color is:", color)
+      totalBags += int(number[0]) + (int(number[0]) * bagCount(color, input))
+      #print("Total Bags is currently at:", totalBags)
 
   return totalBags
 
@@ -44,7 +46,9 @@ def findLine(color, input):
 
 def findColor(line, number):
   splitLine = line.split()
-  index = splitLine.index(number)
+  # print("the split line is:", splitLine)
+  index = splitLine.index(number[0])
+  # print("the index is:", index)
   color = splitLine[index + 1] + ' ' + splitLine[index + 2]
 
   return color
