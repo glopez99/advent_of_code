@@ -1,5 +1,8 @@
 import linecache
 
+# helping a kid turn on his game console (infinity loop)
+# for part 2 - manually backtraced and changed until it didn't loop
+
 rawPuzzleInput = "PuzzleInput.txt"
 
 def dayEight(number, puzzleInput, accumulator, linesSeen):
@@ -10,10 +13,8 @@ def dayEight(number, puzzleInput, accumulator, linesSeen):
   print("the line is:", line)
 
   accumulator += findValue(line)
-  # print("the accumulator currently is:", accumulator)
 
   linesSeen.append(number)
-  # print("the new lines seen is:", linesSeen)
 
   lastNumber = number
   print("the last number was" , lastNumber)
@@ -46,24 +47,5 @@ def getNextLine(line):
     # print("The next line should be increased  by:", numbersOnly)
     return int(numbersOnly)
 
-def getSwitchedLine(line):
-  if line.startswith("nop"):
-    numbersOnly = line[4:]
-    # print("The next line should be increased  by:", numbersOnly)
-    return int(numbersOnly)
-  elif line.startswith("jmp") or line.startswith("acc"):
-    return 1
-
-def checkIfThisIsTheLineToSwitch(count, switch):
-  if count == switch:
-    return True
-  else:
-    return False
-
-def addtoCount(line):
-  if line.startswith("acc"):
-    return 0
-  else:
-    return 1
 
 dayEight(1, rawPuzzleInput, 0, [])
