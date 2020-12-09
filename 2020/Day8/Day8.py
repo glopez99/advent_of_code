@@ -10,17 +10,17 @@ def dayEight(number, puzzleInput, accumulator, linesSeen):
   linesSeen = linesSeen
 
   line = linecache.getline(puzzleInput, number)
-  print("the line is:", line)
+  # print("the line is:", line)
 
   accumulator += findValue(line)
 
   linesSeen.append(number)
 
   lastNumber = number
-  print("the last number was" , lastNumber)
+  # print("the last number was" , lastNumber)
 
   number += getNextLine(line)
-  print("the new number is:", number)
+  # print("the new number is:", number)
 
   if number in linesSeen:
     print("The accumulator is currently at", accumulator, "when a line is repeated.")
