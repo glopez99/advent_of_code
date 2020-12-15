@@ -81,7 +81,7 @@ def dayFourteenPartOne(puzzleInput):
       memory[memoryLocation[0]] = number
     else:
       print("There is an error in your day Fourteen logic")
-
+  
   partOneAnswer = sum(memory.values())
 
   return partOneAnswer
