@@ -1,6 +1,6 @@
 import re
 
-rawPuzzleInput = open("PuzzleInput.txt", "r")
+rawPuzzleInput = open("TestPartTwoInput.txt", "r")
 formattedPuzzleInput = rawPuzzleInput.readlines()
 
 def dayFourteenPartTwo(puzzleInput):

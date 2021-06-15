@@ -4,7 +4,7 @@
 # celebrated and rested for Day 12.
 
 src_code = []
-with open("PuzzleInput.txt", "r") as f:
+with open("TestInput.txt", "r") as f:
     for line in f:
         src_code.append(list(line.strip("\n")))
 
@@ -14,8 +14,10 @@ def dayEleven(puzzleInput):
 
   while previousSeating != currentSeating:
     previousSeating = currentSeating.copy()
+    print("previous seating", previousSeating)
 
     currentSeating = findCurrentSeating(currentSeating)
+    print("current seating", currentSeating)
   
   print("The number of occupied seats is", countOccupiedSeats(currentSeating))
 
