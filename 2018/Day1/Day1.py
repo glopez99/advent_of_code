@@ -6,18 +6,13 @@ with open("PuzzleInput.txt", "r") as f:
 
 
 def day_one_part_one(input):
-    sum = 0
-
-    for number in input:
-        sum = sum + number
-
-    print("The answer to part one is ", sum)
+    print("The answer to part one is ", sum(input))
 
 
 def day_one_part_two(input):
     part_one = 0
     part_two = 0
-    frequency = []
+    frequency = set()
 
     while part_two == 0:
 
@@ -28,7 +23,7 @@ def day_one_part_two(input):
                 part_two = part_one
                 break
             else:
-                frequency.append(part_one)
+                frequency.add(part_one)
 
     print("The answer to part two is ", part_two)
 
