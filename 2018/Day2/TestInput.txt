@@ -1,3 +1,7 @@
+bababc
+abbcde
+abcccd
+aabcdd
 abcde
 fghij
 klmno
