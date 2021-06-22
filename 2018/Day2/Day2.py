@@ -11,18 +11,34 @@ def day_two_part_one(input):
     three_letters = 0
 
     for line in input:
-        twice = 0
-        thrice = 0
-        for letter in line:
-            count = line.count(letter)
-            if count == 2 and twice == 0:
-                twice += 1
-            if count == 3 and thrice == 0:
-                thrice += 1
-        two_letters = two_letters + twice
-        three_letters = three_letters + thrice
+        two_letters += count(line)[0]
+        three_letters += count(line)[1]
 
     print("The answer to part 1 is ", two_letters*three_letters)
+
+
+def count(line):
+    twice = 0
+    thrice = 0
+    letters = set()
+
+    for letter in line:
+        if letter in letters:
+            continue
+
+        count = line.count(letter)
+
+        if count == 2 and twice == 0:
+            twice = 1
+            continue
+
+        if count == 3 and thrice == 0:
+            thrice = 1
+            continue
+
+        letters.add(letter)
+
+    return twice, thrice
 
 
 def day_two_part_two(input):
