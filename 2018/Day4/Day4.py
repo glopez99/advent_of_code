@@ -18,6 +18,11 @@ def day4(input):
     for shift in input:
         shift_list = re.findall(r'\w+', shift)
 
+        matches = re.match(r'\[[\d-]+ \d+:(\d+)\] ((.*#(\d+).*)|(.*))', shift)
+        minutes = matches[1]
+        guard_number = matches[4]
+        wake_sleep = matches[5]
+
         if len(shift_list) == 9:
             last_guard = shift_list[6]
             if last_guard not in guards_sleep:
