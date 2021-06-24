@@ -6,63 +6,58 @@ input = []
 with open("PuzzleInput.txt", "r") as f:
     for line in f:
         input.append(line)
-
     input.sort()
 
 
 def day4(input):
-    guards_sleep = {}
+    guards_schedule = create_guard_schedule(input)
+
+    print("The answer to part one is ", strategy_one(guards_schedule))
+    print("The answer to part two is ", strategy_two(guards_schedule))
+
+
+def create_guard_schedule(input):
+    guards_schedule = {}
     last_guard = 0
-    sleepiest_guard = 0
 
     for shift in input:
-        shift_list = re.findall(r'\w+', shift)
+        matches = re.match(r'\[[\d-]+ \d+:(\d+)\] ((.*#(\d+).*)|(.*))', shift)
+        minutes = int(matches[1])
+        guard_number = matches[4]
+        wake_sleep = matches[5]
 
-        if len(shift_list) == 9:
-            last_guard = shift_list[6]
-            if last_guard not in guards_sleep:
-                guards_sleep[last_guard] = {
-                    "asleep": False,
+        if guard_number != None:
+            last_guard = guard_number
+            if guard_number not in guards_schedule:
+                guards_schedule[guard_number] = {
                     "falls asleep": [],
                     "wakes": [],
                     "sleep total": 0
                 }
-                sleepiest_guard = shift_list[6]
             continue
+        elif wake_sleep == "falls asleep":
+            guards_schedule[last_guard]["falls asleep"].append(minutes)
+        else:
+            guards_schedule[last_guard]["wakes"].append(minutes)
+            guards_schedule[last_guard]["sleep total"] += minutes - \
+                guards_schedule[last_guard]["falls asleep"][-1]
 
-        guards_sleep[last_guard] = totalSleep(
-            guards_sleep[last_guard], shift_list)
-
-        if guards_sleep[sleepiest_guard]["sleep total"] < guards_sleep[last_guard]["sleep total"]:
-            sleepiest_guard = last_guard
-
-    sleepiest_minute = findSleepiestMinute(
-        guards_sleep[sleepiest_guard])
-
-    part_two_answer = findPartTwo(guards_sleep)
-
-    print("The answer to part one is: ",
-          (int(sleepiest_guard) * sleepiest_minute[0]))
-
-    print("The answer to part two is: ", part_two_answer)
+    return guards_schedule
 
 
-def totalSleep(guard_record, shift):
-    if guard_record["asleep"] == False:
-        guard_record["falls asleep"].append(int(shift[4]))
-        guard_record["asleep"] = True
-    else:
-        wakes = int(shift[4])
-        guard_record["wakes"].append(wakes)
-        last_awake = len(guard_record["falls asleep"]) - 1
-        guard_record["sleep total"] += (wakes -
-                                        guard_record["falls asleep"][last_awake])
-        guard_record["asleep"] = False
+def strategy_one(guard_schedule):
+    sleepiest_guard = 0
+    guard_sleep_total = 0
 
-    return guard_record
+    for key in guard_schedule:
+        if (guard_schedule[key]["sleep total"]) > guard_sleep_total:
+            sleepiest_guard = key
+            guard_sleep_total = guard_schedule[key]["sleep total"]
+
+    return int(sleepiest_guard) * find_sleepiest_minute(guard_schedule[sleepiest_guard])[0]
 
 
-def findSleepiestMinute(guard):
+def find_sleepiest_minute(guard):
     i = 0
     minutes = []
 
@@ -71,24 +66,27 @@ def findSleepiestMinute(guard):
         minutes.extend(min_asleep)
         i += 1
 
-    return(Counter(minutes).most_common(1)[0])
+    sleepiest_minute = Counter(minutes).most_common(1)[0]
+
+    return sleepiest_minute
 
 
-def findPartTwo(guards_schedule):
+def strategy_two(guards_schedule):
     guard = 0
     minute = 0
-    counter = 0
+    highest_count = 0
 
     for key in guards_schedule:
         if guards_schedule[key]["sleep total"] == 0:
             continue
 
-        sleepiestMinute = findSleepiestMinute(guards_schedule[key])
+        sleepiest_minute, sleepiest_minute_count = find_sleepiest_minute(
+            guards_schedule[key])
 
-        if sleepiestMinute[1] > counter:
+        if sleepiest_minute_count > highest_count:
             guard = key
-            minute = sleepiestMinute[0]
-            counter = sleepiestMinute[1]
+            minute = sleepiest_minute
+            highest_count = sleepiest_minute_count
 
     return int(guard) * minute
 

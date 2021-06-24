@@ -1,3 +1,5 @@
+from Levenshtein import distance as levenshtein_distance
+
 input = []
 
 with open("PuzzleInput.txt", "r") as f:
@@ -6,77 +8,54 @@ with open("PuzzleInput.txt", "r") as f:
         input.append(no_break)
 
 
-def day_two_part_one(input):
+def day_two(input):
     two_letters = 0
     three_letters = 0
+    part_two_answer = "None"
 
     for line in input:
-        two_letters += count(line)[0]
-        three_letters += count(line)[1]
+        twice, thrice = count(line)
+        two_letters += twice
+        three_letters += thrice
+
+        if part_two_answer == "None":
+            part_two_answer = find_diff(line, input)
 
     print("The answer to part 1 is ", two_letters*three_letters)
+
+    print("The answer to part two is ", part_two_answer)
 
 
 def count(line):
     twice = 0
     thrice = 0
-    letters = set()
+    letters = set(line)
 
-    for letter in line:
-        if letter in letters:
-            continue
+    if len(letters) < len(line):
+        for letter in letters:
+            count = line.count(letter)
 
-        count = line.count(letter)
+            if count == 2:
+                twice = 1
 
-        if count == 2 and twice == 0:
-            twice = 1
-            continue
-
-        if count == 3 and thrice == 0:
-            thrice = 1
-            continue
-
-        letters.add(letter)
+            if count == 3:
+                thrice = 1
 
     return twice, thrice
 
 
-def day_two_part_two(input):
+def find_diff(line, input):
     next_line = 1
 
-    for line in input:
-        match_one = list(line)
-        match_two = list()
-        i = next_line
+    while next_line < len(input):
 
-        while i < len(input) - 1:
-            match_two = input[i]
-            differing_letters = [
-                letter for letter in match_one if letter not in match_two]
-
-            if len(differing_letters) == 1:
-                j = 0
-                count = 0
-                while j < len(line)-1:
-                    if count > 1:
-                        break
-                    if line[j] != input[i][j]:
-                        count += 1
-                        j += 1
-                    else:
-                        j += 1
-                if count == 1:
-                    match_one.remove(differing_letters[0])
-                    print("The answer to part 2 is ",
-                          ''.join(match_one))
-                    break
-                i += 1
-            else:
-                i += 1
+        if levenshtein_distance(line, input[next_line]) == 1:
+            return line
 
         next_line += 1
 
+    return "None"
+
 
 if __name__ == "__main__":
-    day_two_part_one(input)
-    day_two_part_two(input)
+    day_two(input)
