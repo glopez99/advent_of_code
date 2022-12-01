@@ -1,0 +1,5 @@
+mlAnomaly:   [lowerBound=0.0,isAnomaly=false,value=1,upperBound=12.9148608035] javaAnomaly:   [lowerBound=<null>,isAnomaly=false,value=1.0,upperBound=12.914860803458811].
+mlAnomaly:   [lowerBound=0.0,isAnomaly=false,value=0,upperBound=13.2720036606] javaAnomaly:   [lowerBound=<null>,isAnomaly=false,value=0.0,upperBound=13.27200366060167].
+mlAnomaly:   [lowerBound=0.0,isAnomaly=false,value=0,upperBound=12.9862893749] javaAnomaly:   [lowerBound=<null>,isAnomaly=false,value=0.0,upperBound=12.986289374887384].
+mlAnomaly:   [lowerBound=0.0,isAnomaly=false,value=8,upperBound=17.4148608035] javaAnomaly:   [lowerBound=<null>,isAnomaly=false,value=8.0,upperBound=17.414860803458808].
+mlAnomaly:   [lowerBound=0.0,isAnomaly=false,value=1,upperBound=13.2720036606] javaAnomaly:   [lowerBound=<null>,isAnomaly=false,value=1.0,upperBound=13.27200366060167].
