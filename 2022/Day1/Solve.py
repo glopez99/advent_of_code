@@ -1,27 +1,28 @@
 # RFC:
 
-elvesCaloricInventories = []
+elves_caloric_inventories = []
 with open("PuzzleInput.txt", "r") as f:
-  elfInventory = []
+  elf_inventory = []
   for line in f:
     if line.strip():
-      elfInventory.append(int(line))
+      elf_inventory.append(int(line))
     else:
-      elvesCaloricInventories.append(elfInventory)
-      elfInventory = []
-  elvesCaloricInventories.append(elfInventory)
+      elves_caloric_inventories.append(elf_inventory)
+      elf_inventory = []
+  elves_caloric_inventories.append(elf_inventory)
 
-def dayOne():
-  sumCaloricInventories = []
 
-  for elf in elvesCaloricInventories:
-    sumCaloricInventories.append(sum(elf))
+def day_one():
+  sum_caloric_inventories = []
 
-  sumCaloricInventories.sort(reverse=True)
+  for elf in elves_caloric_inventories:
+    sum_caloric_inventories.append(sum(elf))
 
-  print("The solution to part one is ", max(sumCaloricInventories))
-  print("The solution to part two is", sum(sumCaloricInventories [:3]))
+  sum_caloric_inventories.sort(reverse=True)
+
+  print("The solution to part one is ", max(sum_caloric_inventories))
+  print("The solution to part two is", sum(sum_caloric_inventories[:3]))
 
 
 if __name__ == "__main__":
-  dayOne()
+  day_one()
