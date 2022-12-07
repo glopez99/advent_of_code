@@ -8,7 +8,7 @@ def parse_input(input):
 
       for range in split_line:
         start, end = range.split("-")
-        assignment = camp_section(start, end)
+        assignment = camp_section(int(start), int(end))
         assignments.append(assignment)
 
       section_assignments.append(assignments)
