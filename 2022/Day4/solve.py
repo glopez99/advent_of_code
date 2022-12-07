@@ -16,26 +16,40 @@ def parse_input(input):
   return section_assignments
 
 
-def part_one():
-  camp = parse_input("PuzzleInput.txt")
-  contained_sections = list(filter(check_containment, camp))
+def part_one(camp):
+  contained_sections = list(filter(check_full_containment, camp))
   print("The solution to part one is", len(contained_sections), "sections are fully contained in another.")
 
 
-def check_containment(sections):
+def part_two(camp):
+  contained_sections = list(filter(check_partial_containment, camp))
+  print("The solution to part two is", len(contained_sections), "sections are partially contained in another.")
+
+
+def check_full_containment(sections):
   s1_start, s1_end = sections[0].start, sections[0].end
   s2_start, s2_end = sections[1].start, sections[1].end
 
-  if s1_start <= s2_start and s2_end <= s1_end:
+  if s1_start <= s2_start and s2_end <= s1_end or s2_start <= s1_start and s1_end <= s2_end:
     return True
-  elif s2_start <= s1_start and s1_end <= s2_end:
+
+  return False
+
+
+def check_partial_containment(sections):
+  s1_start, s1_end = sections[0].start, sections[0].end
+  s2_start, s2_end = sections[1].start, sections[1].end
+
+  if s1_start <= s2_start <= s1_end or s2_start <= s1_start <= s2_end:
     return True
 
   return False
 
 
 def day_four():
-  part_one()
+  camp = parse_input("PuzzleInput.txt")
+  part_one(camp)
+  part_two(camp)
 
 
 class camp_section(object):
