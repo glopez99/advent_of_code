@@ -27,14 +27,14 @@ class Day_Five(object):
     return cargo_hold, directions
 
   def day_five(self):
-    cargo_hold, directions = self.parse("TestInput.txt")
+    cargo_hold, directions = self.parse("PuzzleInput.txt")
     self.part_one(cargo_hold, directions)
 
   def part_one(self, cargo_hold, directions):
     for direction in directions:
       cargo_hold.move_boxes(direction)
 
-    print("The answer to part one is", cargo_hold.get_top_boxes())
+    print("The answer to part one is", "".join(cargo_hold.get_top_boxes()))
 
 
 class Cargo_Hold(object):
@@ -43,11 +43,10 @@ class Cargo_Hold(object):
   def add_boxes(self, box, stack):
     stack = str(stack)
     if stack in self.stacks:
-      self.stacks[stack].boxes.append(box)
-      print("existing_stack", self.stacks[stack].boxes)
+      self.stacks[stack].append(box)
     else:
-      new_stack = Cargo_Stack(box)
-      print("new_stack", new_stack.boxes)
+      new_stack = deque()
+      new_stack.append(box)
       self.stacks[stack] = new_stack
 
   def move_boxes(self, instructions):
@@ -55,24 +54,17 @@ class Cargo_Hold(object):
     to_stack = self.stacks[instructions.to_stack]
 
     for i in range(instructions.number_of_boxes):
-      box = from_stack.boxes.popleft()
-      to_stack.boxes.appendleft(box)
+      box = from_stack.popleft()
+      to_stack.appendleft(box)
 
   def get_top_boxes(self):
     top_boxes = []
 
-    for stack in self.stacks:
-      box = self.stacks[stack].boxes[0]
+    for i in range(len(self.stacks)):
+      box = self.stacks[str(i+1)][0]
       top_boxes.append(box)
 
     return top_boxes
-
-
-class Cargo_Stack(object):
-  boxes = deque()
-
-  def __init__(self, box):
-    self.boxes.append(box)
 
 
 class Instructions(object):
