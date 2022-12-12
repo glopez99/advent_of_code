@@ -15,6 +15,29 @@ at a time, so the first crate to be moved ends up below the second and third cra
 
 # Glossary:
 
+# Part 2:
+## Goal:
+Some mud was covering the writing on the side of the crane, and you quickly wipe it away. The crane isn't a CrateMover 9000 - it's a CrateMover 9001.
+
+The CrateMover 9001 is notable for many new and exciting features: air conditioning, leather seats, an extra cup holder, and the ability to pick up and move multiple crates at once.
+
+Before the rearrangement process finishes, update your simulation so that the Elves know where they should stand to be ready to unload the final supplies. After the rearrangement procedure completes, what crate ends up on top of each stack?
+
+## Out of Scope:
+What problems are you not trying to solve?
+
+## Design:
+
+### Parsing:
+No additional parsing is needed.
+
+### Solution:
+Similar to part one, we need to go instruction by instruction, moving the appropriate number of boxes from one stack to the other.
+
+We can create another method in the `Cargo_Hold` class called, `move_multiple_boxes` that splits off the boxes from one stack and moves them wholesale into another, keeping the order.
+
+At the end of this, we can take the top box from each stack and return them.
+
 # Part 1:
 ## Goal:
 The Elves just need to know which crate will end up on top of each stack. After the rearrangement procedure completes, 
