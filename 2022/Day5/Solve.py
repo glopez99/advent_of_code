@@ -29,7 +29,7 @@ class Day_Five(object):
     return cargo_hold, directions
 
   def day_five(self):
-    cargo_hold, directions = self.parse("TestInput.txt")
+    cargo_hold, directions = self.parse("PuzzleInput.txt")
     p_one_c_h = copy.deepcopy(cargo_hold)
     p_two_c_h = copy.deepcopy(cargo_hold)
     self.part_one(p_one_c_h, directions)
@@ -49,7 +49,10 @@ class Day_Five(object):
 
 
 class Cargo_Hold(object):
-  stacks = dict()
+  stacks: dict()
+
+  def __init__(self):
+    self.stacks = dict()
 
   def add_boxes(self, box, stack):
     stack = str(stack)
@@ -61,7 +64,6 @@ class Cargo_Hold(object):
       self.stacks[stack] = new_stack
 
   def move_boxes(self, instructions):
-    print("p1", self.stacks)
     from_stack = self.stacks[instructions.from_stack]
     to_stack = self.stacks[instructions.to_stack]
 
@@ -70,16 +72,10 @@ class Cargo_Hold(object):
       to_stack.appendleft(box)
 
   def move_multiple_boxes(self, instructions):
-    print("p2", self.stacks)
-    print("instructions", instructions.number_of_boxes, instructions.from_stack, instructions.to_stack)
     from_stack = self.stacks[instructions.from_stack]
-    print("from", from_stack)
     to_stack = self.stacks[instructions.to_stack]
-    print("to", to_stack)
-    boxes = deque(islice(from_stack, instructions.number_of_boxes))
-    print("p2boxes", boxes)
-    to_stack = boxes + to_stack
-    print("to after", self.stacks[instructions.to_stack])
+    boxes = list(from_stack.popleft() for i in range(instructions.number_of_boxes))
+    self.stacks[instructions.to_stack] = deque(boxes) + to_stack
 
   def get_top_boxes(self):
     top_boxes = []
