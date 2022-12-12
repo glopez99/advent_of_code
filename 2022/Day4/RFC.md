@@ -14,21 +14,23 @@ cleaning, so these seem like the most in need of reconsideration.
 
 ## Glossary:
 
-Part 2:
-Goal:
-It seems like there is still quite a bit of duplicate work planned. Instead, the Elves would like to know the number of pairs that overlap at all. In how many assignment pairs do the ranges overlap?
+## Part 2:
+### Goal:
+It seems like there is still quite a bit of duplicate work planned. Instead, the Elves would like to know the number of 
+pairs that overlap at all. *In how many assignment pairs do the ranges overlap?*
 
-Design:
+### Design:
 
-Parsing:
+#### Parsing:
 No extra parsing is needed.
 
-Solution:
+#### Solution:
 To find how many assignment pairs are overlapping, we can perform a simple check using the start and end for both ranges. 
 
-To perform this check we need to check that the elf 2’s start falls between elf 1’s range or that elf 1’s start falls between elf 2’s range. 
+To perform this check we need to check that the elf 2’s start falls between elf 1’s range or that elf 1’s start falls 
+between elf 2’s range. 
 
-With the this check, we can run a filter on the parsed input and print the size of that filtered list.
+With this check, we can run a filter on the parsed input and print the size of that filtered list.
 
 
 ## Part 1:
