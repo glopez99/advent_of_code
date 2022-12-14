@@ -1,4 +1,5 @@
-# Overview:
+# AoC 2022 Day 6
+## Overview:
 The expedition can depart as soon as the final supplies have been unloaded from the ships. Supplies are stored in stacks
 of marked crates, but because the needed supplies are buried under many other crates, the crates need to be rearranged.
 
@@ -13,41 +14,41 @@ They do, however, have a drawing of the starting stacks of crates and the rearra
 In each step of the procedure, a quantity of crates is moved from one stack to a different stack. Crates are moved one 
 at a time, so the first crate to be moved ends up below the second and third crates.
 
-# Glossary:
+## Glossary:
 
-# Part 2:
-## Goal:
+## Part 2:
+### Goal:
 Some mud was covering the writing on the side of the crane, and you quickly wipe it away. The crane isn't a CrateMover 9000 - it's a CrateMover 9001.
 
 The CrateMover 9001 is notable for many new and exciting features: air conditioning, leather seats, an extra cup holder, and the ability to pick up and move multiple crates at once.
 
 Before the rearrangement process finishes, update your simulation so that the Elves know where they should stand to be ready to unload the final supplies. After the rearrangement procedure completes, what crate ends up on top of each stack?
 
-## Out of Scope:
+### Out of Scope:
 What problems are you not trying to solve?
 
-## Design:
+### Design:
 
-### Parsing:
+#### Parsing:
 No additional parsing is needed.
 
-### Solution:
+#### Solution:
 Similar to part one, we need to go instruction by instruction, moving the appropriate number of boxes from one stack to the other.
 
 We can create another method in the `Cargo_Hold` class called, `move_multiple_boxes` that splits off the boxes from one stack and moves them wholesale into another, keeping the order.
 
 At the end of this, we can take the top box from each stack and return them.
 
-# Part 1:
-## Goal:
+## Part 1:
+### Goal:
 The Elves just need to know which crate will end up on top of each stack. After the rearrangement procedure completes, 
 what crate ends up on top of each stack?
 
-## Out of Scope:
+### Out of Scope:
 What problems are you not trying to solve?
 
-## Design:
-### Parsing:
+### Design:
+#### Parsing:
 The first thing to do in the parsing is to create two classes that model `cargo_hold` and `cargo_stack`. The 
 `cargo_hold` class will hold the `cargo_stack` models, which will be a deque of the boxes in that stack.
 
@@ -66,7 +67,7 @@ Then to parse the remaining lines, we’ll parse each line into a class that mod
 called `instruction` and have the fields: `number_of_boxes`, `from_stack`, and `to_stack`. We will add all of those 
 instructions to a list.
 
-### Solution:
+#### Solution:
 To solve we need to go instruction by instruction, moving the appropriate number of boxes from one stack to the other. 
 
 To do this, we will create a method in `cargo_hold` that will handle moving a number of boxes from one stack to another.
