@@ -1,7 +1,6 @@
-class Day_Six(object):
-  def day_six(self):
+class Day_Seven(object):
+  def day_seven(self):
     computer = self.parse("PuzzleInput.txt")
-    computer.calculate_size()
     print("The answer to part one is", computer.sum_all_subdirectories_under_limit(100000))
 
   def parse(self, puzzle_input):
@@ -19,7 +18,7 @@ class Day_Six(object):
           current_directory.append("dir " + line.split()[2])
           continue
         elif "$" not in line:
-          if "dir" in line:
+          if line.startswith("dir "):
             item = Directory(line.strip())
           else:
             item = File(line)
@@ -30,24 +29,17 @@ class Day_Six(object):
 
 class Directory(object):
   name: str
-  size: int
   contents: {}
 
   def __init__(self, name):
     self.name = name
     self.contents = {}
-    self.size = 0
-
-  def calculate_size(self):
-    for key in self.contents.keys():
-      if "dir" in key:
-        self.size += self.contents[key].calculate_size()
-      else:
-        self.size += self.contents[key].get_size()
-    return self.size
 
   def get_size(self):
-    return self.size
+    size = 0
+    for item in self.contents.values():
+      size += item.get_size()
+    return size
 
   def add_files(self, directory_path, new_file):
     if not directory_path:
@@ -58,11 +50,10 @@ class Directory(object):
   def sum_all_subdirectories_under_limit(self, limit):
     sum_directories = 0
 
-    for key in self.contents.keys():
-      if "dir" in key:
-        if self.contents[key].get_size() <= limit:
-          sum_directories += self.contents[key].get_size()
-        sum_directories += self.contents[key].sum_all_subdirectories_under_limit(limit)
+    for item in self.contents.values():
+      if item.get_size() <= limit:
+        sum_directories += item.get_size()
+      sum_directories += item.sum_all_subdirectories_under_limit(limit)
 
     return sum_directories
 
@@ -79,6 +70,9 @@ class File(object):
   def get_size(self):
     return self.size
 
+  def sum_all_subdirectories_under_limit(self, limit):
+    return 0
+
 
 if __name__ == "__main__":
-  Day_Six().day_six()
+  Day_Seven().day_seven()
