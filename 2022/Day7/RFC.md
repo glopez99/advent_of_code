@@ -38,14 +38,14 @@ No additional parsing needed.
 The first thing to do is to find how much space we need to free up to get the requirement. We can do that by taking the
 size of directory "/" and subtracting that from the total disk space available.
 
-We can refactor our existing code a bit. First we can create a method, `get_size_of_all_subdirectories`, that returns a 
-a list of every subdirectories' sizes by recursively getting them, starting at "/". 
+We can refactor our existing code a bit. First we can create a method, `get_all_subdirectories`, that returns a list of 
+every subdirectory by recursively getting them, starting at "/". 
 
-Once that method exits, we can refactor `sum_all_subdirectories_under_limit` to call `get_size_of_all_subdirectories` 
-and then filter that list for anything over the limit. It will then sum that filtered list.
+We can then do our calculations using list comprehension on `get_all_subdirectories` to sum every item's size in that 
+list that is under the limit.
 
-We can then create a method, `delete_smallest_over_limit`, that will again call `get_size_of_all_subdirectories`. It will
-then filter that list for anything under the limit. It will then return the min of that list.
+For Part 2, we can do list comprehension on `get_all_subdirectories` to return the min of the list of every item's size 
+in that list that is over the newly calculated limit.
 
 ## Part 1:
 ### Goal:

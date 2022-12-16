@@ -5,7 +5,7 @@ class Day_Seven(object):
 
   def parse(self, puzzle_input):
     current_directory = []
-    computer = Directory("dir /")
+    computer = Directory("/")
     with open(puzzle_input, "r") as f:
       for line in f:
         if "cd /" in line:
@@ -15,11 +15,11 @@ class Day_Seven(object):
           current_directory.pop()
           continue
         elif "$ cd" in line:
-          current_directory.append("dir " + line.split()[2])
+          current_directory.append(line.split()[2].strip())
           continue
         elif "$" not in line:
           if line.startswith("dir "):
-            item = Directory(line.strip())
+            item = Directory(line[4:].strip())
           else:
             item = File(line)
           computer.add_files(current_directory, item)
@@ -36,10 +36,7 @@ class Directory(object):
     self.contents = {}
 
   def get_size(self):
-    size = 0
-    for item in self.contents.values():
-      size += item.get_size()
-    return size
+   return sum([item.get_size() for item in self.contents.values()])
 
   def add_files(self, directory_path, new_file):
     if not directory_path:
@@ -48,12 +45,10 @@ class Directory(object):
       self.contents[directory_path[0]].add_files(directory_path[1:], new_file)
 
   def sum_all_subdirectories_under_limit(self, limit):
-    sum_directories = 0
+    sum_directories = sum([item.sum_all_subdirectories_under_limit(limit) for item in self.contents.values()])
 
-    for item in self.contents.values():
-      if item.get_size() <= limit:
-        sum_directories += item.get_size()
-      sum_directories += item.sum_all_subdirectories_under_limit(limit)
+    if self.get_size() <= limit:
+      return sum_directories + self.get_size()
 
     return sum_directories
 
