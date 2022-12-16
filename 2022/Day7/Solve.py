@@ -10,6 +10,7 @@ class Day_Six(object):
     with open(puzzle_input, "r") as f:
       for line in f:
         if "cd /" in line:
+          current_directory = []
           continue
         if ".." in line:
           current_directory.pop()

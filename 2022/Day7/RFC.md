@@ -35,8 +35,8 @@ What is the total size of that directory?
 No additional parsing needed.
 
 #### Solution:
-The first thing to do is to find how much space we need to free up to get the requirement. We can do that by summing all
-the directories and subtracting that from the total disk space available.
+The first thing to do is to find how much space we need to free up to get the requirement. We can do that by taking the
+size of directory "/" and subtracting that from the total disk space available.
 
 Now that we have our limit, we can simply add a new method to the `Directory` class, that finds the smallest directory to
 be deleted that would free up enough space, by finding every directory's size that is larger or equal to the limit, and 
