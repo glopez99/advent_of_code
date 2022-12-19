@@ -1,7 +1,13 @@
 class Day_Seven(object):
   def day_seven(self):
     computer = self.parse("PuzzleInput.txt")
-    print("The answer to part one is", computer.sum_all_subdirectories_under_limit(100000))
+    free_space_needed = 30000000-(70000000 - computer.get_size())
+    print("The answer to part one is", sum(item.get_size()
+                                           for item in computer.get_all_subdirectories([])
+                                           if item.get_size() < 100000))
+    print("The answer to part two is", min(item.get_size()
+                                           for item in computer.get_all_subdirectories([])
+                                           if item.get_size() >= free_space_needed))
 
   def parse(self, puzzle_input):
     current_directory = []
@@ -44,13 +50,13 @@ class Directory(object):
     else:
       self.contents[directory_path[0]].add_files(directory_path[1:], new_file)
 
-  def sum_all_subdirectories_under_limit(self, limit):
-    sum_directories = sum([item.sum_all_subdirectories_under_limit(limit) for item in self.contents.values()])
+  def get_all_subdirectories(self, subdirectory):
+    subdirectory.append(self)
 
-    if self.get_size() <= limit:
-      return sum_directories + self.get_size()
+    for item in self.contents.values():
+      item.get_all_subdirectories(subdirectory)
 
-    return sum_directories
+    return subdirectory
 
 
 class File(object):
@@ -65,8 +71,8 @@ class File(object):
   def get_size(self):
     return self.size
 
-  def sum_all_subdirectories_under_limit(self, limit):
-    return 0
+  def get_all_subdirectories(self, subdirectory):
+    return []
 
 
 if __name__ == "__main__":
