@@ -28,9 +28,9 @@ What problems are you not trying to solve?
 
 #### Parsing:
 We will model the trees into a class, `Tree`, with the fields of `height`, `left_neighbor`, `right_neighbor`, `up_neighbor`
-`down_neighbor`, `visible`. The left/right/up/down will point to the `Tree` objects.
+`down_neighbor`. The left/right/up/down will point to the `Tree` objects.
 
-To create these models, we will parse the information twice. The first time will be to create a list of lists of `Tree`s. 
+To create these models, we will do our parsing in two passes. The first time will be to create a list of lists of `Tree`s. 
 This pass will add in the `height` field, but leave the others empty. The key to the map will be the row number (ex 1, 2, 3)
 and the value will be a list of the trees in that row.
 
@@ -38,19 +38,24 @@ On the second pass, we will then iterate through that map populating each trees 
 to write in to handle the edge trees, but otherwise, using the location of the tree in the map, we'll be able to find and
 link it to its neighbors.
 
+At the end of that second pass, we will consolidate the list of lists into a singular list of `Tree`s to be returned.
+
 #### Solution:
-Now that every tree has a height and its neighbors, we can iterate through the trees, setting their `visibility` field
-by checking their height compared to that of their neighbors/neighbors-neighbors until the edge.
+Now that every tree has a height and its neighbors, we can filter our parsed list of `Tree`s based upon our `is_visible`
+method.
 
-To do this, we can have a `decide_visibility` method in our tree class that sets booleans based upon the tree's neighbor's
-height. This will have a check of whether the `visibility` is already `True`. If it is we can exit the method and move to 
-the next tree. These checks will check the tree's height against it's neighbor's height, and if it's larger, it will then continue
-checking against trees further down the row (using recursion) until it either returns a true or a false.
+Our `is_visibile` method sets booleans based upon the tree's neighbor's height. This will use `or` logic to check 
+visibility in all directions, so that if one direction is visible, it will return `True`. To check this we will have two 
+smaller methods, `is_edge` and `check_neighbor`. 
 
-I'm curious as to whether we could use `or` logic in this method or whether we should just check one direction at a time.
+`is_edge` is a simple return of whether the tree is an edge based upon whether it is missing any neighbors. 
 
-Thinking we'll check one direction at a time, after we've checked the other directions, we can then combine the list of 
-lists and filter it for trees' `visibility` that is true.
+`check_neighbor` will check the original tree's height against it's neighbor's height, and if the original tree's height
+is larger than it's neighbors, it will then continue checking the original tree's height against it's neighbor's 
+neighbors further down the row (using recursion) until it either returns a true or a false. `check_neighbor` will take 
+in the direction to check (i.e. left, right, up, down), so that we minimize duplicate code.
+
+We can then take the length of that filtered list for our answer to part one. 
 
 ## Project Risks
 There are no known risks to this project. 
