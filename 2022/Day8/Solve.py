@@ -40,13 +40,24 @@ class Day_Eight(object):
   def day_eight(self):
     forest = self.parse("PuzzleInput.txt")
     visible_trees = list(filter(self.is_visible, forest))
+    scenic_scores = list(map(self.find_scenic_score, forest))
     print("The answer to part one", len(visible_trees))
+    print("The answer to part two is", max(scenic_scores))
 
   def is_visible(self, tree):
     return tree.check_left(tree.height) or \
            tree.check_right(tree.height) or \
            tree.check_up(tree.height) or \
            tree.check_down(tree.height)
+
+  def find_scenic_score(self, tree):
+    if tree.is_edge():
+      return 0
+
+    return tree.find_distance_left(tree.height) * \
+           tree.find_distance_right(tree.height) * \
+           tree.find_distance_up(tree.height) * \
+           tree.find_distance_down(tree.height)
 
 
 class Tree(object):
@@ -105,6 +116,38 @@ class Tree(object):
       return True
     else:
       return False
+
+  def find_distance_left(self, height_to_check):
+    if self.is_edge():
+      return 0
+    elif height_to_check > self.left.height:
+      return 1 + self.left.find_distance_left(height_to_check)
+    else:
+      return 1
+
+  def find_distance_right(self, height_to_check):
+    if self.is_edge():
+      return 0
+    elif height_to_check > self.right.height:
+      return 1 + self.right.find_distance_right(height_to_check)
+    else:
+      return 1
+
+  def find_distance_up(self, height_to_check):
+    if self.is_edge():
+      return 0
+    elif height_to_check > self.up.height:
+      return 1 + self.up.find_distance_up(height_to_check)
+    else:
+      return 1
+
+  def find_distance_down(self, height_to_check):
+    if self.is_edge():
+      return 0
+    elif height_to_check > self.down.height:
+      return 1 + self.down.find_distance_down(height_to_check)
+    else:
+      return 1
 
 
 if __name__ == "__main__":

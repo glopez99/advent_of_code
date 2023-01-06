@@ -17,6 +17,41 @@ block the view.
 
 ## Glossary:
 
+## Part 2:
+### Goal:
+The Elves just need to know the best spot to build their tree house: they would like to be able to see a lot of trees.
+
+To measure the viewing distance from a given tree, look up, down, left, and right from that tree; stop if you reach an 
+edge or at the first tree that is the same height or taller than the tree under consideration. If a tree is right on the 
+edge, at least one of its viewing distances will be zero.
+
+A tree's scenic score is found by multiplying together its viewing distance in each of the four directions.
+
+Consider each tree on your map. **What is the highest scenic score possible for any tree?**
+
+### Out of Scope:
+What problems are you not trying to solve?
+
+### Design:
+
+#### Parsing:
+No additional parsing will be needed.
+
+#### Solution:
+We can create a new method in our tree class to find it's scenic score called, `find_scenic_score`. This method will multiple
+the distances of each direction to return a "scenic score" for that tree. It will call a method, `find_distance`.
+
+The `find_distance` method will iterate through each of the directions (left, right, up, down) finding the distance to 
+a tree that is an edge or is the same height /taller. It will be similar to the `check_neighbor` method in that it will 
+check the  original tree's height against it's neighbor's. The difference will be instead of returning a boolean, it will
+return an int of how far that tree's visibility is.
+
+One of the edge cases we'll have to watch for is trees on the edge. If the tree being checked is an edge, it will automatically
+return a zero since anything times zero is zero.
+
+With this method, we can filter the tree list and take the max.
+
+
 ## Part 1:
 ### Goal:
 Consider your map; how many trees are visible from outside the grid?
