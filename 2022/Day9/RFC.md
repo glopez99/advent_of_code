@@ -21,6 +21,47 @@ You just need to work out where the tail goes as the head follows a series of mo
 both start at the same position, overlapping.
 
 ## Glossary:
+
+## Part 2:
+### Goal:
+Rather than two knots, you now must simulate a rope consisting of ten knots. One knot is still the head of the rope and 
+moves according to the series of motions. Each knot further down the rope follows the knot in front of it using the same 
+rules as before.
+
+Simulate your complete series of motions on a larger rope with ten knots. How many positions does the tail of the rope 
+visit at least once?
+
+### Out of Scope:
+What problems are you not trying to solve?
+
+### Design:
+
+#### Parsing:
+No additional parsing needed
+
+#### Solution:
+We will start by creating a class called `Rope` that will keep track of `Rope_Segments` in the rope via an array called,
+`rope_segments`. It will have the following methods:`get_head`, `get_tail`, `move_segments`, and `add_segment_to_end`.
+`get_head` and `get_tail` will return the first/last `Rope_Segments` in the `rope_segments`. 
+`move_segments` will take a direction as a parameter. `add_segment_to_end` will take a `Rope_Segment` as a parameter, adding it
+to the end of the `rope_segments` array.
+
+In `move_segments` it will first call `move`, passing in direction as the argument on `rope_segments`' first element's `move`. 
+This will be followed by iterating through the remaining elements in `rope_segments` and calling`follow` using the 
+previous' element as the parameter.
+
+Now that we have a `Rope` class, we will create 10 `Rope_Segments`, adding each of those segments to the `Rope` class.
+
+We will need to adapt `move_rope` to take a `Rope` instead of taking two `Rope_Segments`. We will also need to adapt it
+to just call `move_segments` on the `Rope` passing in `instruction.get_dir` as the parameter. Since the `Rope` class is
+handling the `move` and `follow` for all of the sections, we will need to create a local variable `tail` that calls 
+`Rope.get_tail()`. Using that variable we can then add the tuple (tail location) to our set.
+
+Once we have iterated through all of the instructions, we can take the size the `tail_locations` set for our answer.
+
+Since we are doing some refactoring, we'd like to propose refactoring our `follow` method in our `Rope_Segment` class to
+first check if the segments are touching and if not, using `signum` to update the location. By doing this change, the
+`follow` method becomes easier to read.
     
 ## Part 1:
 ### Goal:

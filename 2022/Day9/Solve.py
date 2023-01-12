@@ -11,24 +11,31 @@ class Day_Nine(object):
 
   def day_nine(self):
     instructions = self.parse('PuzzleInput.txt')
-    head = Rope_Segment()
-    tail = Rope_Segment()
-    tail_locations = set()
+
+    rope_part_one = Rope()
+    rope_part_one.add_segment_to_end(Rope_Segment())
+    rope_part_one.add_segment_to_end(Rope_Segment())
+
+    rope_part_two = Rope()
+    for i in range(10):
+      rope_part_two.add_segment_to_end(Rope_Segment())
+
+    tail_locations_part_one = set()
+    tail_locations_part_two = set()
 
     for instruction in instructions:
-      tail_locations.update(self.move_rope(instruction, head, tail))
+      tail_locations_part_one.update(self.move_rope(instruction, rope_part_one))
+      tail_locations_part_two.update(self.move_rope(instruction, rope_part_two))
 
-    print("The answer to part one is", len(tail_locations))
+    print("The answer to part one is", len(tail_locations_part_one))
+    print("The answer to part two is", len(tail_locations_part_two))
 
-  def move_rope(self, instruction, head, tail):
-    i = 0
+  def move_rope(self, instruction, rope):
     tail_locations = set()
 
-    while i < instruction.get_times():
-      head.move(instruction.get_direction())
-      tail.follow(head)
-      tail_locations.add((tail.get_x(), tail.get_y()))
-      i += 1
+    for i in range(instruction.get_times()):
+      rope.move_segments(instruction.get_direction())
+      tail_locations.add((rope.get_tail().get_x(), rope.get_tail().get_y()))
 
     return tail_locations
 
@@ -69,41 +76,45 @@ class Rope_Segment(object):
       print("There is an error in the move method.", direction)
 
   def follow(self, rope_segment):
-    x_diff = self.x - rope_segment.get_x()
-    y_diff = self.y - rope_segment.get_y()
-    move_diagonally = self.move_diagonally(x_diff, y_diff)
+    x_diff = rope_segment.get_x() - self.x
+    y_diff = rope_segment.get_y() - self.y
 
-    if x_diff < -1:
-      self.x += 1
-    elif x_diff > 1:
-      self.x -= 1
-    elif x_diff == -1 and move_diagonally:
-      self.x += 1
-    elif x_diff == 1 and move_diagonally:
-      self.x -= 1
+    if max(abs(x_diff), abs(y_diff)) <= 1:
+      return
 
-    if y_diff < -1:
-      self.y += 1
-    elif y_diff > 1:
-      self.y -= 1
-    elif y_diff == -1 and move_diagonally:
-      self.y += 1
-    elif y_diff == 1 and move_diagonally:
-      self.y -= 1
+    self.x += self.signum(x_diff)
+    self.y += self.signum(y_diff)
 
-  def move_diagonally(self, x_diff, y_diff):
-    if (-1 > y_diff or y_diff > 1) and (x_diff == -1 or x_diff == 1):
-      return True
-    elif (-1 > x_diff or x_diff > 1) and (y_diff == -1 or y_diff == 1):
-      return True
-    else:
-      return False
+  def signum(self, n):
+    return 0 if n == 0 else n / abs(n)
 
   def get_x(self):
     return self.x
 
   def get_y(self):
     return self.y
+
+
+class Rope(object):
+  rope_segments: []
+
+  def __init__(self):
+    self.rope_segments = []
+
+  def get_head(self):
+    return self.rope_segments[0]
+
+  def get_tail(self):
+    return self.rope_segments[-1]
+
+  def add_segment_to_end(self, rope_segment):
+    self.rope_segments.append(rope_segment)
+
+  def move_segments(self, direction):
+    self.rope_segments[0].move(direction)
+
+    for i in range(1, len(self.rope_segments)):
+      self.rope_segments[i].follow(self.rope_segments[i-1])
 
 
 if __name__ == "__main__":
